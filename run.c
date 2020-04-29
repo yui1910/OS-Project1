@@ -63,11 +63,6 @@ int FIND_NEXT(struct data *P, int N, int nowi, int type, int nowt, int startt)
 
 void SCHEDULE(struct data *P, int N, int type)
 {
-	//給當下process高priority
-	/*struct sched_param p;
-	p.sched_priority = 0;
-	sched_setscheduler(getpid(), SCHED_OTHER, &p);*/
-
 	int nowi = -1; //現在在跑的process index
 	int nexti = -1;
 	int startt = 0; //該process開始跑的時間
@@ -76,7 +71,7 @@ void SCHEDULE(struct data *P, int N, int type)
 	while (1) {
 		//確認nowi狀況
 		if (nowi != -1 && P[nowi].exec_t == 0) { //nowi跑完了	
-			//iwaitpid(P[nowi].PID, NULL, 0); //使child結束
+			waitpid(P[nowi].PID, NULL, 0); //使child結束
 			printf("%s %d\n", P[nowi].name, P[nowi].PID);
 			nowi = -1;
 			finish_N++;
